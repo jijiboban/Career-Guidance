@@ -4,7 +4,7 @@
     Author     : jiji
 --%>
 
-
+<%@include  file="header.jsp" %>
 <%@page import="java.sql.ResultSet"%>
 <jsp:useBean class="db.ConnectionClass" id="c"></jsp:useBean>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -33,79 +33,53 @@
         <title>JSP Page</title>
     </head>
 
-    <%
-         String login="";
-        if (request.getParameter("btnstudsubmit") != null) 
-        {
-            String companyName = request.getParameter("txtstudname");
-            String address = request.getParameter("txtaddress");
-            String contact = request.getParameter("txtcontact");
-            String email = request.getParameter("txtemail");
+   
+   <body>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-6">
+                
+        <form method="post" action="CompanyUpload.jsp" method="post" enctype="multipart/form-data"  class="form-group">
+            <h1 align="center">COMPANY REGISTRATION</h1>
            
-           
-            String companyUname = request.getParameter("txtloginuname");
-            String companyPassword = request.getParameter("txtloginpassword");
-            String insQuery2 = "insert into tbl_login(username,password,utype) values('" + companyUname + "','" + companyPassword + "','4')";
-              boolean b = c.executeCommand(insQuery2);
-               if (b == true) 
-               {
-             String str="select max(login_id) as loginid from tbl_login";
-            ResultSet rs=c.selectCommand(str);
-            if(rs.next())
-                {
-                    login=rs.getString("loginid");
-                    
-                }
-
-            String insQuery1 = "insert into tbl_companies(company_name,company_place,company_contact,company_mail,approval,login_id) values ('" + companyName + "','" + address + "','" + contact + "','" + email + "','0','"+login+"')";
-            
-                c.executeCommand(insQuery1);
-                response.sendRedirect("companyregistration.jsp");
-            } 
-            }
-
-        
-
-
-    %>
-
-
-    <body>
-        <h1 align="center">COMPANY REGISTRATION</h1>
-        <form method="post">
-        <table align="center">
+            <table align="center" class="table table-hover">
             <tr>
                 <td>Name:</td>
-                <td><input type="text" name="txtstudname"></td>
+                <td><input type="text" name="txtstudname" class="form-control"  required="" pattern="[A-Za-z]{5,20}" ></td>
             </tr>
             <tr>
                 <td>Address :</td>
-                <td><input type="text" name="txtaddress" ></td>
+                <td><textarea name="txtquery" name="txtaddress" class="form-control"  required="" pattern="[A-Za-z]{5,20}" ></textarea></td>
             </tr>
-            <tr>
-                <td>Contact Number :</td>
-                <td><input type="number" name="txtcontact"></td>
-            </tr>
+           
             <tr>
                 <td>Email </td>
-                <td><input type="email" name="txtemail"></td>
-            </tr>           
+                <td><input type="email" name="txtemail" class="form-control"  required=""></td>
+            </tr>  
+             <tr>
+                <td>Contact Number :</td>
+                <td><input type="number" name="txtcontact" required="" pattern="[0-9]{10,13}" ></td>
+            </tr>
               <tr>
                 <td>User name</td>
-                <td><input type="text"  name="txtloginuname"></td>
+                <td><input type="text"  name="txtloginuname" required="" pattern="[A-Za-z]{5,20}" ></td>
             </tr>
             <tr>
                 <td>Password</td>
-                <td><input type="password" id="p1" name="txtloginpassword"/></td>
+                <td><input type="password" id="p1" name="txtloginpassword" required="" pattern="[A-Za-z1-9]{5,20}" /></td>
             </tr>
              <tr>
                     <td>Confirm Password</td>
-                    <td><input type="password" id="p2" name="txtloginpassword1"/></td>
+                    <td><input type="password" id="p2" name="txtloginpassword1" required="" pattern="[A-Za-z1-9]{5,20}" /></td>
                 </tr>
+                <tr>
+                <td>Upload Photo </td>
+                <td><input type="file" name="txtphoto" required=""></td>
+            </tr>
                 
                   <tr>
-                    <td align="center"> <input type="submit"  name="btnstudsubmit" onclick="return passcheck()">
-                    <input type="reset" name="btnstudsubmit"/></td>
+                    <td align="center"> <input type="submit" class="btn btn-success" value="REGISTER" name="btnstudsubmit" onclick="return passcheck()">
+                    <input type="reset" class="btn btn-danger" value="CANCEL" name="btnstudsubmit"/></td>
                 </tr>
                 
             </table>
